@@ -1,0 +1,37 @@
+# docker build -t guac-metrics -f Dockerfile.metrics .
+#
+# docker run -d -p 8000:8000 -e GUACAMOLE_HOST="[hostname]" -e GUACAMOLE_USER="[user]" -e GUACAMOLE_PASS="[password]" -e SUPPRESS_SSL_WARNING="y" guac-metrics-exporter
+#
+# SUPPRESS_SSL_WARNING="y" if guacamole is using an self-signed cert this will suppress the warning stdout logs
+
+
+FROM alpine:latest
+
+
+LABEL org.opencontainers.image.authors="chdurbin@cisco.com"
+LABEL org.opencontainers.image.title="Guacamole metrics exporter"
+
+RUN apk update && apk add python3 py3-pip bash
+
+RUN python3 -m pip install --upgrade pip
+ADD ./requirements.txt ./
+RUN python3 -m pip install -r ./requirements.txt
+
+COPY guac-metrics.py /usr/bin
+COPY config.py /usr/bin
+COPY metricslogger.py /usr/bin
+
+# prometheus metrics
+EXPOSE 8000
+
+# Scan the container for vulns
+RUN echo "scan for vulnerbilities"
+RUN apk add curl \
+    && curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin \
+    && trivy filesystem --exit-code 0 --no-progress /
+
+RUN adduser -h /home/metrics -s /bin/bash -D metrics
+USER metrics
+WORKDIR /home/metrics
+
+ENTRYPOINT ["python3", "/usr/bin/guac-metrics.py", "-f"]
