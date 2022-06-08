@@ -15,10 +15,10 @@
 # limitations under the License.
 
 
-# docker build -t guac-metrics -f Dockerfile.metrics .
-#
+# docker build -t guac-metrics-exporter -f Dockerfile.metrics .
+
 # docker run -d -p 8000:8000 -e GUACAMOLE_HOST="[hostname]" -e GUACAMOLE_USER="[user]" -e GUACAMOLE_PASS="[password]" -e SUPPRESS_SSL_WARNING="y" guac-metrics-exporter
-#
+
 # SUPPRESS_SSL_WARNING="y" if guacamole is using an self-signed cert this will suppress the warning stdout logs
 
 
