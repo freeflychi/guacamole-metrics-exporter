@@ -25,20 +25,19 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from prometheus_client import start_http_server, Summary, Gauge
 
 
-# suppress insecure warning if env var set
-if config.suppress_ssl_warning == 'y' or config.suppress_ssl_warning == 'Y':
-    requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-    metricslogger.logger.warning("SSL verification warning suppressed")
-
-
-# Prometheus CollectorRegistry
-USERS = Gauge('number_of_users', 'Number of Users in DB')
-CONNECTIONS = Gauge('number_of_connections', 'Number of connections in DB')
-ACTIVE_CONNECTIONS = Gauge(
-    'number_of_active_connections', 'Number of active connections')
-
-
 class metrics:
+
+    # suppress insecure warning if env var set
+    if config.suppress_ssl_warning == 'y' or config.suppress_ssl_warning == 'Y':
+        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+        metricslogger.logger.warning("SSL verification warning suppressed")
+
+    # Prometheus CollectorRegistry
+    USERS = Gauge('number_of_users', 'Number of Users in DB')
+    CONNECTIONS = Gauge('number_of_connections', 'Number of connections in DB')
+    ACTIVE_CONNECTIONS = Gauge(
+        'number_of_active_connections', 'Number of active connections')
+
     api = "/guacamole/api/session/data/mysql/"
     token = ""
 
@@ -72,7 +71,7 @@ class metrics:
             metricslogger.logger.info(f"number of users={num_users}")
 
             # prometheus exporter
-            USERS.set(num_users)
+            self.USERS.set(num_users)
 
         except(Exception) as error:
             metricslogger.logger.error(
@@ -90,7 +89,7 @@ class metrics:
                 f"number of connections={num_connections}")
 
             # prometheus exporter
-            CONNECTIONS.set(num_connections)
+            self.CONNECTIONS.set(num_connections)
 
         except(Exception) as error:
             metricslogger.logger.error(
@@ -107,7 +106,7 @@ class metrics:
                 f"active connections={num_active_connections}")
 
             # prometheus exporter
-            ACTIVE_CONNECTIONS.set(num_active_connections)
+            self.ACTIVE_CONNECTIONS.set(num_active_connections)
 
         except(Exception) as error:
             metricslogger.logger.error(
