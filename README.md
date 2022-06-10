@@ -6,7 +6,11 @@ Intended to be run in a container and based on API documentation from https://gi
 
 - The number of users in the database.
 - The number of connections in the database.
-- The number of active connections. <br><br>
+- The number of active connections. <br>
+
+![Alt text](https://github.com/freeflychi/guacamole-metrics-exporter/blob/main/metrics.png "Metrics in _Grafana_")
+
+<br><br>
 
 ## Environment Variables
 
