@@ -10,7 +10,7 @@ Intended to be run in a container and based on API documentation from https://gi
 
 ![Alt text](https://github.com/freeflychi/guacamole-metrics-exporter/blob/main/metrics.png "Metrics in _Grafana_")
 
-<br><br>
+<br>
 
 ## Environment Variables
 
