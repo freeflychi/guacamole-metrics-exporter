@@ -32,7 +32,7 @@ The following env vars is optional
 
 ---
 
-`docker build -t guac-metrics-exporter -f Dockerfile.metrics .` <br><br>
+`docker build -t guacamole-metrics-exporter -f Dockerfile.metrics .` <br><br>
 
 ## Run
 
@@ -43,7 +43,7 @@ docker run -d -p 8000:8000 -e GUACAMOLE_HOST="guacamole.domain.com" \
     -e GUACAMOLE_USER="guacadmin" \
     -e GUACAMOLE_PASS="password" \
     -e SUPPRESS_SSL_WARNING="y" \
-    guac-metrics-exporter
+    guacamole-metrics-exporter
 ```
 
 <br>
